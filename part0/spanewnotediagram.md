@@ -1,0 +1,36 @@
+
+sequenceDiagram
+  participant browser
+  participant server
+  
+  browser ->> server: GET <https://studies.cs.helsinki.fi/exampleapp/spa>
+  activate server
+  server-->>brower: HTML document
+  deactivate server
+
+  browser->>server: GET <https://studies.cs.helsinki.fi/exampleapp/main.css>
+  activate server
+  server-->>browser: the css file
+  deactivate server
+
+  browser->>server: GET <https://studies.cs.helsinki.fi/exampleapp/spa.js>
+  activate server
+  server-->>browser: the JavaScript file
+  deactivate server
+
+   Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+  browser->>server: GET <https://studies.cs.helsinki.fi/exampleapp/data.json>
+  activate server
+  server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+  deactivate server
+
+   Note right of browser: When the xmlhttprequest is DONE and the response code is 200 the javascript code to redraw the notes is run.
+
+  Note: User enters Hello test 2 and presses the save button. Javascript prevents the default behaviour and it adds the note to the local version and redraws the notes with the new one.
+
+  browser-->> POST <https://studies.cs.helsinki.fi/exampleapp/new_note_spa>
+  activate server
+  server-->> browser: {"message":"note created"}
+  deactivate server
+  
